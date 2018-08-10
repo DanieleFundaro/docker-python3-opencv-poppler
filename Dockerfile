@@ -3,7 +3,7 @@ FROM jjanzic/docker-python3-opencv@sha256:5d08b72587cc9a64c6c6f8a6f19a1b1dffe607
 
 WORKDIR /
 
-RUN apt-get update && apt-get install -y libfontconfig1 fonts-liberation
+RUN apt-get update && apt-get install -y libfontconfig1 fonts-liberation tesseract-ocr pdftk
 
 RUN wget https://poppler.freedesktop.org/poppler-data-0.4.9.tar.gz && \
     wget https://poppler.freedesktop.org/poppler-0.67.0.tar.xz && \
@@ -20,6 +20,8 @@ RUN wget https://poppler.freedesktop.org/poppler-data-0.4.9.tar.gz && \
     cd ../.. && \
     rm -rf poppler-*
 
+RUN pip install numpy Cython pytesseract
+RUN pip install scikit-image 
 
 # Fix atrocious font rendering (https://github.com/wkhtmltopdf/wkhtmltopdf/issues/45#issuecomment-108649125)
 ADD 100-wkhtmltoimage-special.conf /etc/fonts/conf.d/100-wkhtmltoimage-special.conf
